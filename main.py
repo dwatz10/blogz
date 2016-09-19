@@ -15,13 +15,10 @@ class BlogHandler(webapp2.RequestHandler):
         return query.fetch(limit=limit, offset=offset)
 
     def get_posts_by_user(self, user, limit, offset):
-        """
-            Get all posts by a specific user, ordered by creation date (descending).
-            The user parameter will be a User object.
-        """
-
+        #query = db.GqlQuery("SELECT * FROM Post WHERE author = '%s' ORDER BY created DESC" % user)
+        query = Post.all().filter('author', user).order('-created')
         # TODO - filter the query so that only posts by the given user
-        return None
+        return query.fetch(limit=limit, offset=offset)
 
     def get_user_by_name(self, username):
         """ Get a user object from the db, based on their username """
